@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-title>{{ isEdit ? 'Edit Student' : 'Add Student' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="submitForm()">
+    <!-- Admin-only editable fields -->
+    <ion-item>
+      <ion-label position="floating">Name</ion-label>
+      <ion-input [(ngModel)]="student.name" name="name" [readonly]="userRole !== 'admin'"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Roll</ion-label>
+      <ion-input [(ngModel)]="student.roll" name="roll" [readonly]="userRole !== 'admin'"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Department</ion-label>
+      <ion-input [(ngModel)]="student.department" name="department" [readonly]="userRole !== 'admin'"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Year</ion-label>
+      <ion-input type="number" [(ngModel)]="student.year" name="year" [readonly]="userRole !== 'admin'"></ion-input>
+    </ion-item>
+
+    <!-- Editable by both -->
+    <ion-item>
+      <ion-label position="floating">Attendance</ion-label>
+      <ion-input type="number" [(ngModel)]="student.attendance" name="attendance"></ion-input>
+    </ion-item>
+
+    <!-- Subjects & Grades -->
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Subjects & Grades</ion-label>
+      </ion-list-header>
+
+      <ion-item *ngFor="let subject of subjects; let i = index">
+        <ion-input
+          type="text"
+          placeholder="Subject"
+          [(ngModel)]="subjects[i]"
+          name="subject-{{i}}"
+          [readonly]="userRole !== 'admin'"
+        ></ion-input>
+
+        <ion-input
+          type="text"
+          placeholder="Grade"
+          [(ngModel)]="grades[i]"
+          name="grade-{{i}}"
+          class="ion-margin-start"
+        ></ion-input>
+
+        <ion-button fill="clear" color="danger" (click)="removeSubject(i)" *ngIf="userRole === 'admin'">
+          <ion-icon name="remove-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <!-- Add Subject Button (Admin only) -->
+    <ion-button expand="block" (click)="addSubject()" color="secondary" *ngIf="userRole === 'admin'">
+      <ion-icon name="add-outline" slot="start"></ion-icon>
+      Add Subject
+    </ion-button>
+
+    <ion-button expand="block" type="submit" class="ion-margin-top">
+      {{ isEdit ? 'Update Student' : 'Add Student' }}
+    </ion-button>
+  </form>
+</ion-content>

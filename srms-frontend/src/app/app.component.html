@@ -1,0 +1,21 @@
+<ion-app>
+  <!-- 🔗 Side Menu -->
+  <ion-menu contentId="main-content" side="start" menuId="main">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>SRMS Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item routerLink="/dashboard" routerDirection="root">Dashboard</ion-item>
+        <ion-item routerLink="/students/student-list" routerDirection="root">Students</ion-item>
+        <!-- ✅ Logout Button -->
+        <ion-item (click)="logout()">Logout</ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <!-- 🚀 App Content -->
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-app>

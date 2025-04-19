@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>Total Students</ion-card-header>
+    <ion-card-content>{{ totalStudents }}</ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>Department-wise Stats</ion-card-header>
+    <ion-card-content>
+      <ion-item *ngFor="let d of departmentStats">
+        <ion-label>{{ d.name }}</ion-label>
+        <ion-badge color="primary">{{ d.count }}</ion-badge>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>Year-wise Stats</ion-card-header>
+    <ion-card-content>
+      <ion-item *ngFor="let y of yearStats">
+        <ion-label>Year {{ y.year }}</ion-label>
+        <ion-badge color="secondary">{{ y.count }}</ion-badge>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>Average Attendance</ion-card-header>
+    <ion-card-content>
+      <ion-progress-bar value="{{ averageAttendance / 100 }}"></ion-progress-bar>
+      <p class="ion-text-center ion-margin-top">{{ averageAttendance | number:'1.0-1' }}%</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

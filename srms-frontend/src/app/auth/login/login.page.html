@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">SRMS Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header class="ion-text-center">
+      <ion-card-title>Welcome Back</ion-card-title>
+      <ion-card-subtitle>Please login to continue</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <form (ngSubmit)="login()">
+        <!-- Email Field -->
+        <ion-item>
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          <ion-input
+            type="email"
+            placeholder="Enter Email"
+            [(ngModel)]="email"
+            name="email"
+            required
+            autocomplete="off"
+          ></ion-input>
+        </ion-item>
+
+        <!-- Password Field -->
+        <ion-item>
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-input
+            type="password"
+            placeholder="Enter Password"
+            [(ngModel)]="password"
+            name="password"
+            required
+            autocomplete="off"
+          ></ion-input>
+        </ion-item>
+
+        <!-- Login Button -->
+        <ion-button expand="block" type="submit" class="ion-margin-top">
+          <ion-icon name="log-in-outline" slot="start"></ion-icon>
+          Login
+        </ion-button>
+
+        <!-- Register Link -->
+        <ion-text color="medium">
+          <p class="ion-text-center ion-margin-top">
+            Don’t have an account?
+            <a routerLink="/auth/register"><strong>Register here</strong></a>
+          </p>
+        </ion-text>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

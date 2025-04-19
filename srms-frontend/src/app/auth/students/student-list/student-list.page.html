@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Student Records</ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="userRole === 'admin'" routerLink="/students/student-form">
+        Add Student
+      </ion-button>
+      <ion-button (click)="logout()" color="danger">
+        <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- 📊 Dashboard -->
+  <ion-card class="ion-margin-top">
+    <ion-card-header>
+      <ion-card-title>Dashboard Overview</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <strong>Total Students</strong>
+            <p>{{ totalStudents }}</p>
+          </ion-col>
+          <ion-col size="6">
+            <strong>Avg. Attendance (%)</strong>
+            <p>{{ avgAttendance | number: '1.0-1' }}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 🔍 Search -->
+  <ion-item>
+    <ion-label position="floating">Search by name or roll</ion-label>
+    <ion-input [(ngModel)]="searchQuery" (ionInput)="filterStudents()"></ion-input>
+  </ion-item>
+
+  <!-- 🧮 Filters -->
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-select [(ngModel)]="selectedDepartment" (ionChange)="filterStudents()" placeholder="Department">
+          <ion-select-option value="">All</ion-select-option>
+          <ion-select-option *ngFor="let dept of departments" [value]="dept">{{ dept }}</ion-select-option>
+        </ion-select>
+      </ion-col>
+      <ion-col>
+        <ion-select [(ngModel)]="selectedYear" (ionChange)="filterStudents()" placeholder="Year">
+          <ion-select-option value="">All</ion-select-option>
+          <ion-select-option *ngFor="let y of years" [value]="y">{{ y }}</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- 📋 Student List -->
+  <ion-list *ngIf="filteredStudents.length > 0; else noResults">
+    <ion-item *ngFor="let student of filteredStudents">
+      <ion-label>
+        <h2>{{ student.name }} ({{ student.roll }})</h2>
+        <p>{{ student.department }} - Year {{ student.year }}</p>
+        <p>Attendance: {{ student.attendance }}%</p>
+
+        <!-- ✅ Subjects and Grades -->
+        <div *ngIf="student.subjects?.length">
+          <p><strong>Subjects & Grades:</strong></p>
+          <ul>
+            <li *ngFor="let subject of student.subjects">
+              {{ subject }} - {{ student.grades[subject] || 'N/A' }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="ion-padding-top">
+          <ion-button size="small" color="primary" fill="outline" (click)="editStudent(student.id!)">Edit</ion-button>
+          <ion-button size="small" color="danger" fill="outline" *ngIf="userRole === 'admin'" (click)="deleteStudent(student.id!)">Delete</ion-button>
+          <ion-button size="small" color="medium" fill="outline" (click)="downloadPDF(student.id!)">PDF</ion-button>
+        </div>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #noResults>
+    <ion-text color="medium" class="ion-text-center ion-margin-top">
+      <p>No students found.</p>
+    </ion-text>
+  </ng-template>
+</ion-content>
